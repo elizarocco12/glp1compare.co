@@ -204,6 +204,47 @@
       .sticky-bar{gap:8px;}
       .sticky-bar input{max-width:100%;flex:1 0 100%;}
     }
+
+    /* ── BLOG ── */
+    .blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-bottom:40px;}
+    .blog-card{background:#fff;border:1px solid var(--gray-200);border-radius:14px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .15s;}
+    .blog-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.12);transform:translateY(-3px);}
+    .blog-card-img{height:150px;display:flex;align-items:center;justify-content:center;font-size:52px;}
+    .blog-card-body{padding:20px;}
+    .blog-cat{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;border-radius:999px;padding:3px 10px;margin-bottom:10px;}
+    .blog-cat.blue{background:#dbeafe;color:#1e40af;}
+    .blog-cat.green{background:#dcfce7;color:#166534;}
+    .blog-cat.purple{background:#ede9fe;color:#5b21b6;}
+    .blog-cat.amber{background:#fef3c7;color:#92400e;}
+    .blog-card-title{font-size:16px;font-weight:800;line-height:1.35;margin-bottom:8px;color:var(--gray-900);}
+    .blog-card-excerpt{font-size:13px;color:var(--gray-600);line-height:1.6;margin-bottom:14px;}
+    .blog-meta{display:flex;gap:14px;font-size:12px;color:var(--gray-400);}
+    .blog-back{display:inline-flex;align-items:center;gap:6px;background:var(--gray-100);border:none;border-radius:8px;padding:9px 16px;font-size:14px;font-weight:600;color:var(--gray-700);cursor:pointer;margin-bottom:24px;transition:background .15s;}
+    .blog-back:hover{background:var(--gray-200);}
+    .blog-article-head{margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--gray-200);}
+    .blog-article-head h1{font-size:clamp(22px,4vw,36px);font-weight:900;line-height:1.2;margin:10px 0 12px;color:var(--gray-900);}
+    .blog-article-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--gray-500);}
+    .blog-article-body{max-width:760px;}
+    .blog-article-body h2{font-size:21px;font-weight:800;margin:34px 0 12px;color:var(--gray-900);}
+    .blog-article-body h3{font-size:17px;font-weight:700;margin:22px 0 8px;color:var(--gray-800);}
+    .blog-article-body p{font-size:15px;line-height:1.85;color:var(--gray-700);margin-bottom:16px;}
+    .blog-article-body ul,.blog-article-body ol{padding-left:22px;margin-bottom:16px;}
+    .blog-article-body li{font-size:15px;line-height:1.85;color:var(--gray-700);margin-bottom:6px;}
+    .blog-article-body strong{color:var(--gray-900);}
+    .blog-article-body a{color:var(--blue);text-decoration:none;}
+    .blog-article-body a:hover{text-decoration:underline;}
+    .blog-cta-box{background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #bfdbfe;border-radius:14px;padding:26px 28px;margin:34px 0;text-align:center;}
+    .blog-cta-box h3{font-size:19px;font-weight:800;margin-bottom:8px;color:var(--gray-900);}
+    .blog-cta-box p{font-size:14px;color:var(--gray-600);margin-bottom:18px;}
+    .blog-cta-box button{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:12px 26px;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s;}
+    .blog-cta-box button:hover{background:#1d4ed8;}
+    .blog-price-table{width:100%;border-collapse:collapse;margin:16px 0 24px;border-radius:10px;overflow:hidden;border:1px solid var(--gray-200);font-size:13px;}
+    .blog-price-table th{background:var(--gray-900);color:#fff;padding:10px 14px;text-align:left;font-weight:700;}
+    .blog-price-table td{padding:10px 14px;border-bottom:1px solid var(--gray-100);}
+    .blog-price-table tr:last-child td{border-bottom:none;}
+    .blog-price-table tr:hover td{background:var(--gray-50);}
+    .blog-price-table .best{color:var(--green);font-weight:700;}
+    .blog-price-table .high{color:var(--red);}
   </style>
 </head>
 <body>
@@ -271,6 +312,7 @@
     <button class="tab-btn active" onclick="switchTab('prices',this)">💉 Price Comparison</button>
     <button class="tab-btn" onclick="switchTab('referral',this)">🎁 Referral Offers <span class="tab-badge">Save up to £94</span></button>
     <button class="tab-btn" onclick="switchTab('reactivation',this)">🔄 Reactivation Deals <span class="tab-badge">Lapsed patients</span></button>
+    <button class="tab-btn" onclick="switchTab('blog',this);renderBlog()">📝 Blog &amp; Guides <span class="tab-badge">10 articles</span></button>
   </div>
 </div>
 
@@ -622,6 +664,16 @@
     </div>
   </div>
 
+  <!-- ════ BLOG TAB ════ -->
+  <div class="section" id="tab-blog">
+    <div class="section-head" style="margin-bottom:20px;">
+      <h2>📝 GLP-1 Guides &amp; Reviews</h2>
+      <span class="sub">In-depth articles on providers, prices, and medications — updated weekly</span>
+    </div>
+    <div id="blogGrid" class="blog-grid"></div>
+    <div id="blogArticle" style="display:none;"></div>
+  </div>
+
   <div class="disclaimer">
     <strong>Pricing Disclaimer:</strong> Prices shown are sourced from publicly available provider websites and are intended as a guide only. <strong>Prices may be inaccurate, out of date, or differ from what you are quoted at checkout.</strong> Always verify the current price directly with the provider before making any purchase decision. Prices are updated weekly but can change at any time without notice, and may vary based on your dose, plan type, eligibility, or ongoing promotions. We are not affiliated with any provider listed and receive no commission or referral fees.
     <br/><br/>
@@ -888,6 +940,357 @@ window.addEventListener('scroll', () => {
     bar.classList.remove('show');
   }
 }, { passive: true });
+
+// ═══════════════════════════════════════════════════════════════
+//  BLOG DATA — 10 SEO-OPTIMISED ARTICLES
+// ═══════════════════════════════════════════════════════════════
+const BLOGS = [
+  {
+    title: 'Cheapest Mounjaro UK 2026: Full Provider Price Comparison',
+    category: 'Price Comparison', catClass: 'blue',
+    date: '9 June 2026', readTime: '6 min read', emoji: '💰',
+    bgGrad: 'linear-gradient(135deg,#1e3a5f,#2563eb)',
+    excerpt: 'Mounjaro prices vary by up to £90/month between UK providers at the same dose. Here\'s exactly where to find the cheapest Mounjaro in 2026 — at every dose.',
+    content: `<p>Mounjaro (tirzepatide) is the UK's fastest-growing weight loss medication — but with prices ranging from <strong>£139 to £229 per month</strong> for the starter dose alone, choosing the right provider can save you over £1,000 a year. This guide breaks down the cheapest Mounjaro prices across every major UK provider.</p>
+<h2>How Much Does Mounjaro Cost in the UK?</h2>
+<p>Mounjaro is available privately in the UK from £139/month for the 2.5mg starter dose. At the highest maintenance dose (15mg), prices range from £285/month (Slinic) to £339/month (Numan) — a difference of <strong>£54 every month</strong>, or £648 per year at the same dose from the same medication manufacturer.</p>
+<h2>Cheapest Mounjaro Prices by Dose — June 2026</h2>
+<table class="blog-price-table"><thead><tr><th>Dose</th><th>Cheapest Provider</th><th>Price</th><th>Most Expensive</th><th>Price</th></tr></thead><tbody>
+<tr><td>2.5mg</td><td class="best">🏆 Slinic</td><td class="best">£139</td><td>Numan</td><td class="high">£229</td></tr>
+<tr><td>5mg</td><td class="best">🏆 Slinic</td><td class="best">£165</td><td>Numan</td><td class="high">£239</td></tr>
+<tr><td>7.5mg</td><td class="best">🏆 Slinic</td><td class="best">£225</td><td>Numan</td><td class="high">£269</td></tr>
+<tr><td>10mg</td><td class="best">🏆 Slinic</td><td class="best">£255</td><td>Numan</td><td class="high">£299</td></tr>
+<tr><td>12.5mg</td><td class="best">🏆 Slinic</td><td class="best">£275</td><td>Numan</td><td class="high">£319</td></tr>
+<tr><td>15mg</td><td class="best">🏆 Slinic</td><td class="best">£285</td><td>Numan</td><td class="high">£339</td></tr>
+</tbody></table>
+<p><em>Prices correct as of 9 June 2026. Always verify with the provider before purchasing.</em></p>
+<h2>Why Do Mounjaro Prices Differ So Much?</h2>
+<p>The wholesale cost of Mounjaro to UK pharmacies is broadly similar across providers — so why does the retail price vary so widely? The difference comes down to:</p>
+<ul><li><strong>What's bundled in:</strong> Some providers include the clinical consultation, delivery, and aftercare in the headline price. Others charge these separately.</li><li><strong>Business model:</strong> Bolt Pharmacy operates on an at-cost model, passing medication on near-wholesale. Numan invests heavily in apps and coaching — and prices accordingly.</li><li><strong>Brand premium:</strong> Well-known brands command higher prices regardless of underlying cost.</li></ul>
+<h2>Hidden Costs to Check Before Ordering</h2>
+<ul><li><strong>Consultation fee:</strong> Is the initial assessment included, or charged separately?</li><li><strong>Delivery:</strong> Most providers offer free delivery; Boots charges extra.</li><li><strong>Ongoing prescriptions:</strong> Monthly renewals — are clinical check-ins bundled?</li><li><strong>Dose adjustments:</strong> Do you get support if you need to pause or change dose?</li></ul>
+<h2>How to Get the Best Deal on Mounjaro</h2>
+<ul><li><strong>Referral codes:</strong> Simple Online Pharmacy (£40 off) and MedExpress (£40 off) offer new-patient discounts. Check our Referral Offers tab.</li><li><strong>Subscribe and Save:</strong> Several providers offer 5–10% discounts on subscriptions vs one-off orders.</li><li><strong>Compare at maintenance dose:</strong> If you plan long-term treatment, compare at your expected maintenance dose, not just the starter.</li></ul>
+<h2>Is the Cheapest Option Safe?</h2>
+<p>Price and safety are not mutually exclusive. All UK providers dispensing Mounjaro must be registered with the <strong>General Pharmaceutical Council (GPhC)</strong> — verify at pharmacyregulation.org. The cheapest providers in our comparison (Slinic, Bolt) are both GPhC-registered and include full clinical consultations.</p>
+<div class="blog-cta-box"><h3>Compare All Mounjaro Prices Side by Side</h3><p>Our free comparison tool shows current prices across 15+ UK providers at your dose — updated every Monday.</p><button onclick="switchTab('prices',document.querySelector('.tab-btn'))">View Price Comparison →</button></div>`
+  },
+  {
+    title: 'Mounjaro vs Wegovy UK 2026: Which GLP-1 Is Right for You?',
+    category: 'GLP-1 Guide', catClass: 'purple',
+    date: '9 June 2026', readTime: '7 min read', emoji: '⚖️',
+    bgGrad: 'linear-gradient(135deg,#4f46e5,#7c3aed)',
+    excerpt: 'Both Mounjaro and Wegovy are available privately in the UK — but they work differently, cost different amounts, and suit different patients. Here\'s the full comparison.',
+    content: `<p>Mounjaro (tirzepatide) and Wegovy (semaglutide) are the two leading GLP-1 weight loss medications available privately in the UK. Both are highly effective — but they differ meaningfully in how they work, how much weight patients typically lose, and what they cost.</p>
+<h2>What's the Difference Between Mounjaro and Wegovy?</h2>
+<p><strong>Wegovy</strong> (semaglutide) is a GLP-1 receptor agonist. It mimics the GLP-1 hormone to reduce appetite, slow digestion, and help you feel full sooner. Licensed in the UK for weight management since 2023.</p>
+<p><strong>Mounjaro</strong> (tirzepatide) is a dual GIP and GLP-1 receptor agonist. It activates two hormone pathways simultaneously. This dual action appears to produce greater weight loss than single GLP-1 agonists like Wegovy.</p>
+<h2>Clinical Results: Which Works Better?</h2>
+<ul><li><strong>Mounjaro (SURMOUNT-1):</strong> Average <strong>20.9% body weight loss</strong> on 15mg over 72 weeks</li><li><strong>Wegovy (STEP-1):</strong> Average <strong>14.9% body weight loss</strong> on 2.4mg over 68 weeks</li><li><strong>Head-to-head (SURMOUNT-5):</strong> Mounjaro users lost approximately <strong>20% more weight</strong> than Wegovy users over the same period</li></ul>
+<p>However, trial results are averages — individual results vary based on diet, exercise, genetics, and adherence.</p>
+<h2>Mounjaro vs Wegovy Price Comparison UK 2026</h2>
+<table class="blog-price-table"><thead><tr><th>Comparison</th><th>Mounjaro (cheapest)</th><th>Wegovy (cheapest)</th></tr></thead><tbody>
+<tr><td>Starter dose</td><td>£139/month (Slinic, 2.5mg)</td><td class="best">£99/month (Slinic, 0.25mg)</td></tr>
+<tr><td>Mid dose</td><td>£255/month (Slinic, 10mg)</td><td class="best">£179/month (Slinic, 1mg)</td></tr>
+<tr><td>Maintenance dose</td><td class="best">£285/month (Slinic, 15mg)</td><td>£209.99/month (Slinic, 2.4mg)</td></tr>
+<tr><td>Most expensive (maintenance)</td><td class="high">£339/month (Numan, 15mg)</td><td class="high">£249/month (Numan, 2.4mg)</td></tr>
+</tbody></table>
+<p>Wegovy is cheaper at starter doses. On a full-year cost basis, Mounjaro at maintenance dose costs approximately <strong>£300–900 more per year</strong> than Wegovy depending on provider — but typically delivers greater weight loss.</p>
+<h2>Side Effects: Are They Different?</h2>
+<p>Both share similar gastrointestinal side effects: nausea, vomiting, diarrhoea, and constipation, especially in the first 4–8 weeks. Mounjaro may cause slightly more nausea early in treatment due to its dual mechanism. Serious side effects (pancreatitis, gallbladder disease) are rare but require urgent medical attention if they occur.</p>
+<h2>Which Should You Choose?</h2>
+<ul><li><strong>Wegovy</strong> if budget is a priority, if you've previously used Ozempic (same active ingredient), or your prescriber recommends it</li><li><strong>Mounjaro</strong> if maximum efficacy is your goal, if you have type 2 diabetes (also licensed for diabetes), or if you've tried semaglutide without sufficient results</li></ul>
+<p>This is ultimately a clinical decision — always discuss with your prescriber before starting either medication.</p>
+<div class="blog-cta-box"><h3>Compare Mounjaro &amp; Wegovy Prices Across All UK Providers</h3><p>Our free comparison tool shows current prices for both medications at every dose — updated every Monday.</p><button onclick="switchTab('prices',document.querySelector('.tab-btn'))">Compare Prices Now →</button></div>`
+  },
+  {
+    title: 'Boots vs Asda Mounjaro 2026: High Street Price Comparison',
+    category: 'Provider Review', catClass: 'green',
+    date: '9 June 2026', readTime: '5 min read', emoji: '🏪',
+    bgGrad: 'linear-gradient(135deg,#0f766e,#16a34a)',
+    excerpt: 'Boots and Asda both offer Mounjaro and Wegovy on the high street. We compare prices, included services, and overall value at every dose — and how they stack up against online-only providers.',
+    content: `<p>Boots and Asda are the UK's two largest high-street pharmacy chains offering GLP-1 medications privately. Both are trusted, regulated — but their prices differ significantly, and both are undercut by several online providers at most doses.</p>
+<h2>Boots Mounjaro Prices 2026</h2>
+<p>Boots offers Mounjaro via their <strong>Online Doctor</strong> service — full digital consultation, with the option to collect in-store or have it delivered (delivery charged separately).</p>
+<table class="blog-price-table"><thead><tr><th>Dose</th><th>Boots</th></tr></thead><tbody>
+<tr><td>2.5mg</td><td>£176.97</td></tr><tr><td>5mg</td><td>£189.97</td></tr><tr><td>7.5mg</td><td>£267.97</td></tr>
+<tr><td>10mg</td><td>£302.97</td></tr><tr><td>12.5mg</td><td>£314.97</td></tr><tr><td>15mg</td><td>£334.97</td></tr>
+</tbody></table>
+<h2>Asda Mounjaro Prices 2026</h2>
+<p>Asda's service runs through their <strong>Online Doctor</strong> platform. Delivery is included. In-store collection available at Asda pharmacies.</p>
+<table class="blog-price-table"><thead><tr><th>Dose</th><th>Asda</th></tr></thead><tbody>
+<tr><td>2.5mg</td><td>£148.97</td></tr><tr><td>5mg</td><td>£169</td></tr><tr><td>7.5mg</td><td>£229</td></tr>
+<tr><td>10mg</td><td>£259</td></tr><tr><td>12.5mg</td><td>£279</td></tr><tr><td>15mg</td><td>£299</td></tr>
+</tbody></table>
+<h2>Boots vs Asda: Direct Comparison</h2>
+<table class="blog-price-table"><thead><tr><th>Dose</th><th>Boots</th><th>Asda</th><th>Asda saving</th></tr></thead><tbody>
+<tr><td>2.5mg</td><td>£176.97</td><td class="best">£148.97</td><td>£28/month</td></tr>
+<tr><td>5mg</td><td>£189.97</td><td class="best">£169</td><td>£21/month</td></tr>
+<tr><td>7.5mg</td><td>£267.97</td><td class="best">£229</td><td>£39/month</td></tr>
+<tr><td>10mg</td><td>£302.97</td><td class="best">£259</td><td>£44/month</td></tr>
+<tr><td>15mg</td><td>£334.97</td><td class="best">£299</td><td>£36/month</td></tr>
+</tbody></table>
+<p><strong>Asda is cheaper than Boots at every single dose</strong> — by £21–£44/month. At 10mg maintenance, that's £528/year saved for identical medication.</p>
+<h2>High Street vs Online-Only: What's the Real Difference?</h2>
+<p>The main high-street advantage is <strong>in-store collection</strong>. This matters if you're travelling, run short, or simply prefer a face-to-face pharmacy interaction. Both Boots and Asda also carry strong consumer trust and clear returns/complaints processes.</p>
+<p>However, both are <strong>significantly more expensive than the cheapest online providers</strong>. At the 2.5mg dose: Slinic charges £139, Bolt charges £149 — versus Asda's £148.97 and Boots' £176.97. The high-street premium is real at all doses.</p>
+<h2>Verdict</h2>
+<p>If you want a high-street pharmacy with in-store collection, <strong>Asda wins clearly over Boots</strong> at every dose. But if your priority is lowest cost, online-only providers like Slinic and Bolt offer lower prices with equally professional clinical services.</p>
+<div class="blog-cta-box"><h3>See How Boots &amp; Asda Compare to All 15 UK Providers</h3><p>Our free weekly-updated comparison shows Boots, Asda, and 13 other providers side by side at every dose.</p><button onclick="switchTab('prices',document.querySelector('.tab-btn'))">Compare All Providers →</button></div>`
+  },
+  {
+    title: 'MedExpress Mounjaro & Wegovy Review 2026: Prices, Process & Verdict',
+    category: 'Provider Review', catClass: 'green',
+    date: '9 June 2026', readTime: '5 min read', emoji: '🏥',
+    bgGrad: 'linear-gradient(135deg,#0369a1,#0ea5e9)',
+    excerpt: 'MedExpress is one of the UK\'s longest-established online pharmacies. We review their Mounjaro and Wegovy prices, the ordering process, and how they compare to the wider UK market.',
+    content: `<p>MedExpress has operated since 2011, making it one of the UK's longest-established online pharmacies. They offer both Mounjaro and Wegovy alongside a wide range of other prescription treatments. Here's a full assessment of their pricing and service in 2026.</p>
+<h2>MedExpress Mounjaro Prices 2026</h2>
+<table class="blog-price-table"><thead><tr><th>Dose</th><th>MedExpress</th><th>Market position</th></tr></thead><tbody>
+<tr><td>2.5mg</td><td>£179.99</td><td>Mid-range</td></tr><tr><td>5mg</td><td>£189.99</td><td>Mid-range</td></tr>
+<tr><td>7.5mg</td><td>£249.99</td><td>Mid-range</td></tr><tr><td>10mg</td><td>£279.99</td><td>Mid-range</td></tr>
+<tr><td>12.5mg</td><td>£299.99</td><td>Mid-range</td></tr><tr><td>15mg</td><td>£309.99</td><td>Mid-range</td></tr>
+</tbody></table>
+<h2>MedExpress Wegovy Prices 2026</h2>
+<table class="blog-price-table"><thead><tr><th>Dose</th><th>MedExpress</th></tr></thead><tbody>
+<tr><td>0.25mg</td><td>£99.99</td></tr><tr><td>0.5mg</td><td>£119.99</td></tr><tr><td>1mg</td><td>£149.99</td></tr>
+<tr><td>1.7mg</td><td>£179.99</td></tr><tr><td>2.4mg</td><td>£199.99</td></tr>
+</tbody></table>
+<p>MedExpress Wegovy pricing is competitive at entry and mid-range, broadly in line with Slinic, Morrisons, and Bolt.</p>
+<h2>How Does the MedExpress Process Work?</h2>
+<ol><li><strong>Online questionnaire:</strong> Detailed health assessment covering BMI, medical history, current medications</li><li><strong>Clinical review:</strong> UK-based prescriber reviews — video or asynchronous depending on case complexity</li><li><strong>Prescription &amp; dispatch:</strong> If eligible, prescription issued and medication dispatched from their UK pharmacy</li><li><strong>Next-day delivery:</strong> Medication typically arrives next working day in discreet packaging</li><li><strong>Monthly renewals:</strong> Clinical check-in included with each prescription renewal</li></ol>
+<h2>What's Included?</h2>
+<ul><li>✓ Initial clinical consultation</li><li>✓ Ongoing prescriptions and clinical reviews</li><li>✓ Free delivery</li><li>✓ Access to clinical team for queries</li></ul>
+<h2>Is MedExpress Legitimate?</h2>
+<p>Yes. MedExpress is registered with the <strong>General Pharmaceutical Council (GPhC)</strong> and regulated by the <strong>Care Quality Commission (CQC)</strong>. Over 13 years of operation and millions of prescriptions processed. Verify their registration at pharmacyregulation.org.</p>
+<h2>Value vs the Market</h2>
+<p>MedExpress sits in the mid-range for Mounjaro — more expensive than Slinic, Bolt, and Asda, but cheaper than Numan and Boots. For Wegovy, they're more competitive and broadly match the cheapest providers at most doses. At 15mg Mounjaro: MedExpress charges £309.99 vs Slinic's £285 — that's £300 extra per year for the same medication.</p>
+<h2>MedExpress Referral Offer</h2>
+<p>MedExpress offers <strong>£40 off for new patients</strong> referred by an existing customer. Ask an existing user for their referral link before placing your first order.</p>
+<h2>Verdict</h2>
+<p>A reputable, long-established provider with a smooth process. Wegovy prices are competitive; Mounjaro prices are mid-range. The peace of mind from 13 years' trading is real — but comparison shopping could still save you £300+/year on Mounjaro at the same quality of care.</p>
+<div class="blog-cta-box"><h3>See How MedExpress Compares to All UK Providers</h3><p>Compare MedExpress prices against Slinic, Bolt, Boots, Asda, and 10 others at your exact dose.</p><button onclick="switchTab('prices',document.querySelector('.tab-btn'))">Compare Prices →</button></div>`
+  },
+  {
+    title: 'Simple Online Pharmacy GLP-1 Review 2026: Are They the Cheapest?',
+    category: 'Provider Review', catClass: 'green',
+    date: '9 June 2026', readTime: '5 min read', emoji: '💻',
+    bgGrad: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+    excerpt: 'Simple Online Pharmacy is one of the UK\'s most visible GLP-1 providers — but are their prices actually competitive? We compare their Mounjaro and Wegovy costs against the full market.',
+    content: `<p>Simple Online Pharmacy consistently appears at the top of UK search results for Mounjaro and Wegovy. But high visibility doesn't always mean best value. We've compared their prices against every major UK provider to give you the real picture.</p>
+<h2>Simple Online Pharmacy Mounjaro Prices 2026</h2>
+<table class="blog-price-table"><thead><tr><th>Dose</th><th>Simple Online</th><th>Market ranking</th></tr></thead><tbody>
+<tr><td>2.5mg</td><td>£169</td><td>Mid-range (5th cheapest)</td></tr><tr><td>5mg</td><td>£199.99</td><td>Mid-range</td></tr>
+<tr><td>7.5mg</td><td>£259.99</td><td>Mid-range</td></tr><tr><td>10mg</td><td>£299.99</td><td>More expensive</td></tr>
+<tr><td>12.5mg</td><td>£309.99</td><td>More expensive</td></tr><tr><td>15mg</td><td>£319.99</td><td>More expensive</td></tr>
+</tbody></table>
+<p>For Mounjaro, Simple Online Pharmacy is <strong>not among the cheapest providers</strong>. At 2.5mg, Slinic charges £30 less (£139). At 15mg, Slinic charges £34.99 less per month — that's £420/year difference.</p>
+<h2>Simple Online Pharmacy Wegovy Prices 2026</h2>
+<table class="blog-price-table"><thead><tr><th>Dose</th><th>Simple Online</th></tr></thead><tbody>
+<tr><td>0.25mg</td><td>£104.99</td></tr><tr><td>0.5mg</td><td>£124.99</td></tr><tr><td>1mg</td><td>£159.99</td></tr>
+<tr><td>1.7mg</td><td>£189.99</td></tr><tr><td>2.4mg</td><td>£214.99</td></tr>
+</tbody></table>
+<p>For Wegovy, they're slightly above the cheapest providers (Slinic, Morrisons, Bolt, SheMed) but broadly mid-market.</p>
+<h2>What Does Simple Online Pharmacy Include?</h2>
+<ul><li>✓ Online clinical consultation</li><li>✓ Free delivery</li><li>⚠ Aftercare: more limited than some competitors at this price point</li></ul>
+<h2>The Referral Scheme: Where They Really Stand Out</h2>
+<p>Simple Online Pharmacy's referral programme gives <strong>£40 off for both the existing patient AND the new patient</strong>. This is one of the most generous bilateral referral offers in the UK market. If someone you know already uses Simple Online Pharmacy, the £40 saving significantly narrows the gap vs. cheaper headline-price providers.</p>
+<h2>Is Simple Online Pharmacy Safe?</h2>
+<p>Yes — GPhC-registered and CQC-regulated. This review is about pricing competitiveness, not safety or legitimacy, which is not in question.</p>
+<h2>Verdict</h2>
+<p>A reputable provider with a clean ordering process, but prices are mid-to-high for Mounjaro and mid-range for Wegovy. You can find the same medication cheaper elsewhere. Their bilateral referral scheme is a genuine highlight — factor in the £40 discount if you have a referral code before switching.</p>
+<div class="blog-cta-box"><h3>Compare Simple Online Pharmacy Against All UK Providers</h3><p>See exactly how their prices compare at your dose — alongside 14 other providers — in our free weekly-updated comparison.</p><button onclick="switchTab('prices',document.querySelector('.tab-btn'))">Compare Now →</button></div>`
+  },
+  {
+    title: 'Bolt Pharmacy Mounjaro Review 2026: At-Cost Pricing Explained',
+    category: 'Provider Review', catClass: 'green',
+    date: '9 June 2026', readTime: '5 min read', emoji: '⚡',
+    bgGrad: 'linear-gradient(135deg,#b45309,#f59e0b)',
+    excerpt: 'Bolt Pharmacy claims to offer Mounjaro and Wegovy at at-cost pricing. We investigate whether their prices are genuinely among the lowest, and what the experience is actually like.',
+    content: `<p>Bolt Pharmacy has built a reputation in the UK GLP-1 market by promising to sell Mounjaro and Wegovy at "at-cost" pricing — passing on the wholesale price with only a small admin fee. It's a compelling model. But does it actually result in the lowest prices available?</p>
+<h2>What Is "At-Cost" Pricing?</h2>
+<p>Bolt's model minimises profit margin on the medication itself. Rather than adding a significant markup over wholesale cost (as most providers do), they pass medication on at near-wholesale prices and cover operational costs through a subscription fee structure. This means prices can fluctuate as wholesale costs change — but savings are passed through to patients when costs fall.</p>
+<h2>Bolt Pharmacy Mounjaro Prices 2026</h2>
+<table class="blog-price-table"><thead><tr><th>Dose</th><th>Bolt</th><th>vs. Slinic</th></tr></thead><tbody>
+<tr><td>2.5mg</td><td>£149</td><td>+£10</td></tr><tr><td>5mg</td><td>£179</td><td>+£14</td></tr>
+<tr><td>7.5mg</td><td>£239</td><td>+£14</td></tr><tr><td>10mg</td><td>£269</td><td>+£14</td></tr>
+<tr><td>12.5mg</td><td>£289</td><td>+£14</td></tr><tr><td>15mg</td><td>£299</td><td>+£14</td></tr>
+</tbody></table>
+<p>Bolt is the <strong>second cheapest for Mounjaro</strong> at most doses, beaten only by Slinic by roughly £10–14/month. Given full clinical services and free delivery are included, this represents excellent value.</p>
+<h2>Bolt Pharmacy Wegovy Prices 2026</h2>
+<table class="blog-price-table"><thead><tr><th>Dose</th><th>Bolt</th><th>Market position</th></tr></thead><tbody>
+<tr><td>0.25mg</td><td class="best">£99 🏆</td><td>Joint cheapest</td></tr><tr><td>0.5mg</td><td class="best">£119 🏆</td><td>Joint cheapest</td></tr>
+<tr><td>1mg</td><td class="best">£149 🏆</td><td>Joint cheapest</td></tr><tr><td>1.7mg</td><td class="best">£179 🏆</td><td>Joint cheapest</td></tr>
+<tr><td>2.4mg</td><td>£209</td><td>Competitive</td></tr>
+</tbody></table>
+<p>For Wegovy, Bolt is joint cheapest at 0.25mg through 1.7mg — matching Morrisons, Slinic, and MedExpress. Exceptionally good value.</p>
+<h2>What Does Bolt Include?</h2>
+<ul><li>✓ Clinical consultation included</li><li>✓ Free delivery</li><li>✓ Ongoing aftercare and dose management</li><li>✓ Monthly subscription — cancel anytime</li></ul>
+<h2>Bolt Referral Offer</h2>
+<p>New patients can save <strong>£30 off their first month</strong> through Bolt's referral scheme. See our Referral Offers tab for current details.</p>
+<h2>Verdict</h2>
+<p>Bolt Pharmacy is one of the best-value options in the UK GLP-1 market. Their at-cost model delivers genuine savings — consistently second cheapest for Mounjaro, joint cheapest for most Wegovy doses. Full clinical services and free delivery are included. The only provider consistently cheaper for Mounjaro is Slinic, and the margin is small (≈£14/month).</p>
+<div class="blog-cta-box"><h3>See Bolt Pharmacy vs the Full UK Market</h3><p>Compare Bolt's prices against Slinic, MedExpress, Boots, Asda, and 10 others at your dose — updated every week.</p><button onclick="switchTab('prices',document.querySelector('.tab-btn'))">Full Price Comparison →</button></div>`
+  },
+  {
+    title: 'Numan Mounjaro & Wegovy Review 2026: Is the Premium Worth It?',
+    category: 'Provider Review', catClass: 'green',
+    date: '9 June 2026', readTime: '5 min read', emoji: '🔬',
+    bgGrad: 'linear-gradient(135deg,#0f172a,#334155)',
+    excerpt: 'Numan charges some of the highest prices in the UK for Mounjaro and Wegovy. We look at what you actually get for the premium — and whether cheaper alternatives offer the same quality of care.',
+    content: `<p>Numan is one of the UK's best-known health platforms, offering GLP-1 weight loss medications alongside their wider health portfolio. Their prices are among the highest in the market. But Numan also offers a premium clinical programme with coaching and app-based tracking. Is the extra cost justified?</p>
+<h2>Numan Mounjaro Prices 2026</h2>
+<table class="blog-price-table"><thead><tr><th>Dose</th><th>Numan</th><th>Cheapest alternative</th><th>Monthly saving elsewhere</th></tr></thead><tbody>
+<tr><td>2.5mg</td><td class="high">£229</td><td>Slinic £139</td><td class="best">Save £90/month</td></tr>
+<tr><td>5mg</td><td class="high">£239</td><td>Slinic £165</td><td class="best">Save £74/month</td></tr>
+<tr><td>7.5mg</td><td class="high">£269</td><td>Slinic £225</td><td class="best">Save £44/month</td></tr>
+<tr><td>10mg</td><td class="high">£299</td><td>Slinic £255</td><td class="best">Save £44/month</td></tr>
+<tr><td>15mg</td><td class="high">£339</td><td>Slinic £285</td><td class="best">Save £54/month</td></tr>
+</tbody></table>
+<p>At the starter dose alone, <strong>Numan charges £90 more per month than the cheapest alternative</strong>. At 15mg maintenance over a full year: choosing Numan over Slinic costs an extra <strong>£648</strong>.</p>
+<h2>Numan Wegovy Prices 2026</h2>
+<table class="blog-price-table"><thead><tr><th>Dose</th><th>Numan</th><th>Cheapest</th></tr></thead><tbody>
+<tr><td>0.25mg</td><td>£119</td><td>£99</td></tr><tr><td>0.5mg</td><td>£139</td><td>£109.99</td></tr>
+<tr><td>1mg</td><td>£179</td><td>£114.99</td></tr><tr><td>1.7mg</td><td>£219</td><td>£159</td></tr>
+<tr><td>2.4mg</td><td class="high">£249</td><td>£159 (SheMed)</td></tr>
+</tbody></table>
+<h2>What Do You Get With Numan That You Don't Get Elsewhere?</h2>
+<ul><li><strong>Dedicated health coach:</strong> Ongoing 1-to-1 support alongside your medication</li><li><strong>Numan app:</strong> Track weight, food, symptoms, and progress</li><li><strong>Personalised lifestyle plan:</strong> Nutrition and exercise guidance tailored to your goals</li><li><strong>Enhanced clinical monitoring:</strong> More frequent prescriber check-ins than budget providers</li></ul>
+<h2>Numan's £94 First-Month Wegovy Offer</h2>
+<p>Numan periodically offers new patients <strong>£94 off their first month of Wegovy</strong>. This significantly reduces the first-month cost and can bring it below the cheapest providers for month one. However, ongoing costs revert to full price from month two onwards.</p>
+<h2>Is the Numan Premium Worth It?</h2>
+<p>This depends on what you value. If you want the lowest possible monthly cost for the medication itself, Numan is not the right choice — the same Mounjaro pen costs significantly less elsewhere. However, if you will actively use the coaching, app, and structured lifestyle programme, the added value may justify the premium for some patients. Clinical safety is not a differentiator here — all reputable UK providers use qualified prescribers and are GPhC-registered.</p>
+<h2>Verdict</h2>
+<p>Numan charges a significant premium. Their programme is genuinely more comprehensive than most budget providers. But for self-motivated patients who don't need intensive coaching, paying up to £90/month more for identical medication is very hard to justify.</p>
+<div class="blog-cta-box"><h3>See How Much You Could Save vs. Numan</h3><p>Compare Numan's prices against every UK provider at your dose in our free weekly-updated comparison tool.</p><button onclick="switchTab('prices',document.querySelector('.tab-btn'))">Compare Prices →</button></div>`
+  },
+  {
+    title: 'How Much Does Wegovy Cost in the UK? 2026 Complete Price Guide',
+    category: 'Price Guide', catClass: 'blue',
+    date: '9 June 2026', readTime: '6 min read', emoji: '💷',
+    bgGrad: 'linear-gradient(135deg,#065f46,#059669)',
+    excerpt: 'Wegovy costs between £99 and £249 per month in the UK depending on your dose and provider. Here\'s every price, at every dose, from every UK provider — and how to find the cheapest.',
+    content: `<p>Wegovy (semaglutide) was approved by the MHRA for weight management in the UK in 2023 and is now available privately from over a dozen UK providers. Prices vary enormously — from £99/month for the starter dose to £249/month at the full maintenance dose. This guide tells you exactly what Wegovy costs across the full UK market.</p>
+<h2>How Is Wegovy Priced in the UK?</h2>
+<p>Wegovy is available privately from online pharmacies and high-street providers. <strong>NHS access is extremely limited</strong> — it typically requires a specialist referral, a BMI above 35, and significant weight-related health conditions, with waiting lists of 12–18+ months. The vast majority of UK patients pay privately.</p>
+<p>All prices are for a 4-week supply (one auto-injector pen). Patients start on a low dose and increase gradually over approximately 16–20 weeks to reach the 2.4mg maintenance dose.</p>
+<h2>Wegovy Prices by Dose — All UK Providers (June 2026)</h2>
+<table class="blog-price-table"><thead><tr><th>Dose</th><th>Cheapest Provider</th><th>Price</th><th>Most Expensive</th><th>Price</th></tr></thead><tbody>
+<tr><td>0.25mg</td><td class="best">🏆 Slinic / SheMed / Morrisons</td><td class="best">£99</td><td>Numan/Juniper</td><td class="high">£119</td></tr>
+<tr><td>0.5mg</td><td class="best">🏆 Morrisons / Bolt</td><td class="best">£119</td><td>Numan/Juniper</td><td class="high">£139</td></tr>
+<tr><td>1mg</td><td class="best">🏆 Slinic</td><td class="best">£114.99</td><td>Numan</td><td class="high">£179</td></tr>
+<tr><td>1.7mg</td><td class="best">🏆 Slinic</td><td class="best">£159.99</td><td>Numan</td><td class="high">£219</td></tr>
+<tr><td>2.4mg (maintenance)</td><td class="best">🏆 SheMed</td><td class="best">£159</td><td>Numan</td><td class="high">£249</td></tr>
+</tbody></table>
+<h2>What Affects Wegovy's Price?</h2>
+<ul><li><strong>Your dose:</strong> Higher doses cost more. The biggest price jumps occur between 0.5mg→1mg and 1mg→1.7mg.</li><li><strong>Your provider:</strong> Up to £90/month difference between cheapest and most expensive at the same dose.</li><li><strong>What's included:</strong> Consultation, delivery, and aftercare bundling varies by provider.</li><li><strong>Flat-rate pricing:</strong> SheMed charges a flat £159/month regardless of dose (women only) — cheapest at 1.7mg and 2.4mg, more expensive at lower doses.</li></ul>
+<h2>Wegovy vs Ozempic: Is There a Cheaper Alternative?</h2>
+<p>Ozempic (a lower-dose semaglutide) is sometimes discussed as a weight loss option. This is critical to understand: <strong>Ozempic is not licensed for weight management</strong> in the UK — it is a diabetes medication. Reputable UK providers will not prescribe it for weight loss. Wegovy is the correct, licensed weight-loss formulation of semaglutide.</p>
+<h2>Is Wegovy Available on the NHS?</h2>
+<p>Very limited NHS availability: BMI ≥35, at least one weight-related health condition, specialist Tier 3 referral required, and waiting lists of 12–18+ months. For most patients in 2026, private prescription is the practical route.</p>
+<h2>How to Get the Best Wegovy Price</h2>
+<ul><li><strong>Compare at your maintenance dose:</strong> The 2.4mg price is what matters long-term — not just the 0.25mg starter.</li><li><strong>Consider flat-rate pricing:</strong> SheMed's £159/month flat rate (women only) is exceptional at 1.7mg and 2.4mg.</li><li><strong>Use referral codes:</strong> Up to £94 off first month with Numan, £40 off with Simple Online Pharmacy. See our Referral tab.</li></ul>
+<h2>Total Annual Cost of Wegovy in the UK</h2>
+<ul><li><strong>Budget (e.g. Slinic/SheMed):</strong> ~£1,400–£2,200 in first 12 months</li><li><strong>Mid-market (e.g. MedExpress, Asda):</strong> ~£1,700–£2,600</li><li><strong>Premium (e.g. Numan):</strong> ~£1,900–£3,000</li></ul>
+<div class="blog-cta-box"><h3>Find the Cheapest Wegovy Price at Your Dose</h3><p>Our free comparison tool updates every Monday with current prices from all UK providers — filter by dose to see exactly what you'd pay.</p><button onclick="switchTab('prices',document.querySelector('.tab-btn'));document.getElementById('medFilter').value='wegovy';applyFilters()">Compare Wegovy Prices →</button></div>`
+  },
+  {
+    title: 'GLP-1 Weight Loss Injections UK: Complete Beginner\'s Guide 2026',
+    category: 'GLP-1 Guide', catClass: 'purple',
+    date: '9 June 2026', readTime: '8 min read', emoji: '📚',
+    bgGrad: 'linear-gradient(135deg,#312e81,#4f46e5)',
+    excerpt: 'Thinking about starting Mounjaro or Wegovy? Here\'s everything you need to know before your first prescription — how they work, eligibility, costs, side effects, and what to expect.',
+    content: `<p>GLP-1 weight loss injections have transformed treatment options for people living with obesity in the UK. Mounjaro and Wegovy are now used by hundreds of thousands of UK adults privately. If you're new to these medications, here's everything you need to know before getting started.</p>
+<h2>What Are GLP-1 Medications?</h2>
+<p>GLP-1 stands for <strong>glucagon-like peptide-1</strong> — a hormone your body naturally produces in response to eating. GLP-1 medications mimic this hormone to: reduce appetite and hunger signals, slow the rate at which food leaves your stomach (making you feel full longer), improve blood sugar regulation, and in many patients, significantly reduce "food noise" — intrusive thoughts about eating.</p>
+<p>Originally developed for type 2 diabetes, GLP-1 medications were found to produce substantial weight loss as a side effect. Higher-dose versions (Wegovy, Mounjaro) are now licensed specifically for weight management in the UK.</p>
+<h2>Which GLP-1 Medications Are Available for Weight Loss in the UK?</h2>
+<ul><li><strong>Mounjaro (tirzepatide):</strong> Dual GIP and GLP-1 receptor agonist, licensed for weight management in the UK since 2023. Doses: 2.5mg to 15mg.</li><li><strong>Wegovy (semaglutide):</strong> GLP-1 receptor agonist, licensed for weight management since 2023. Doses: 0.25mg to 2.4mg.</li></ul>
+<p><strong>Important:</strong> Ozempic (lower-dose semaglutide) is licensed for type 2 diabetes only — not weight loss. Reputable UK providers should not prescribe it for weight management.</p>
+<h2>Am I Eligible?</h2>
+<ul><li><strong>BMI ≥ 30</strong>, or BMI ≥ 27 with at least one weight-related health condition (high blood pressure, pre-diabetes, sleep apnoea, etc.)</li><li>Not pregnant or breastfeeding</li><li>No personal or family history of medullary thyroid cancer</li><li>No history of pancreatitis (discuss with prescriber)</li><li>Not taking certain interacting medications — your prescriber will assess</li></ul>
+<h2>The Dose Titration Schedule</h2>
+<p>Both medications start low and increase gradually. Rushing to higher doses dramatically increases side effect risk.</p>
+<p><strong>Mounjaro:</strong> 2.5mg → 5mg → 7.5mg → 10mg → 12.5mg → 15mg (one month at each level typically)</p>
+<p><strong>Wegovy:</strong> 0.25mg → 0.5mg → 1mg → 1.7mg → 2.4mg (one month at each level)</p>
+<p>Some patients remain at lower maintenance doses if they've achieved their goals or find higher doses poorly tolerated — this is clinically valid.</p>
+<h2>Common Side Effects</h2>
+<ul><li><strong>Nausea:</strong> Very common in the first 4 weeks at each new dose. Usually improves. Smaller meals and avoiding fatty or spicy food helps significantly.</li><li><strong>Vomiting:</strong> Less common; if persistent, ask your prescriber about staying at the current dose longer.</li><li><strong>Diarrhoea or constipation:</strong> Both occur — stay well-hydrated.</li><li><strong>Reduced appetite:</strong> The intended effect, but can be so pronounced that adequate nutrition requires conscious effort. Protein intake is especially important.</li></ul>
+<p><strong>Serious but rare:</strong> Seek immediate medical attention for severe abdominal pain (possible pancreatitis) or symptoms of allergic reaction.</p>
+<h2>What Results Should I Expect?</h2>
+<ul><li>Initial appetite suppression typically felt within days to weeks</li><li>Noticeable weight loss usually within 4–8 weeks</li><li>Maximum effect typically over 12–18 months of treatment</li><li>Clinical trials: Mounjaro ~21% body weight loss, Wegovy ~15% at maximum doses</li></ul>
+<h2>How Much Does Treatment Cost Per Year?</h2>
+<ul><li><strong>Mounjaro (Slinic, full titration to 15mg):</strong> ~£2,547 for 12 months</li><li><strong>Wegovy (Slinic, full titration to 2.4mg):</strong> ~£1,594 for 12 months</li><li><strong>Premium providers (e.g. Numan):</strong> Add 30–65% to these figures</li></ul>
+<h2>How to Choose a Provider</h2>
+<ul><li>Verify GPhC registration at pharmacyregulation.org</li><li>Confirm a qualified UK prescriber reviews your application personally</li><li>Check aftercare coverage — what happens if you have side effects or need a dose change?</li><li>Compare prices at your expected maintenance dose, not just the starter</li></ul>
+<div class="blog-cta-box"><h3>Ready to Compare UK GLP-1 Prices?</h3><p>Use our free tool to compare Mounjaro and Wegovy prices across 15+ UK providers at any dose — updated every Monday.</p><button onclick="switchTab('prices',document.querySelector('.tab-btn'))">Compare Prices Now →</button></div>`
+  },
+  {
+    title: 'Oral GLP-1 Pills Coming to the UK: Everything We Know + Price Predictions',
+    category: 'Coming Soon', catClass: 'amber',
+    date: '9 June 2026', readTime: '6 min read', emoji: '💊',
+    bgGrad: 'linear-gradient(135deg,#3730a3,#be185d)',
+    excerpt: 'No-injection GLP-1 weight loss pills are coming to the UK market. Here\'s what we know about oral semaglutide and tirzepatide tablets, their effectiveness, when they\'ll arrive, and predicted prices.',
+    content: `<p>For many people, the idea of a weekly injection is the biggest barrier to starting GLP-1 weight loss treatment. Oral GLP-1 weight loss pills — taken as tablets rather than injections — are on the horizon for UK patients. Here's a complete guide to what's coming, how they work, and what to expect on price and timing.</p>
+<h2>Are Oral GLP-1 Weight Loss Pills Available in the UK Right Now?</h2>
+<p>Not yet — not for weight loss. An oral semaglutide called <strong>Rybelsus</strong> (14mg) already exists, but it is only licensed for <em>type 2 diabetes</em>, not weight management. It is not available from UK weight loss providers. Higher-dose oral semaglutide for weight management, and oral tirzepatide, are in advanced clinical development. We expect the first UK approvals within the next 12–24 months.</p>
+<h2>What Oral GLP-1 Medications Are in Development?</h2>
+<ul><li><strong>Oral semaglutide (Novo Nordisk):</strong> The OASIS trials study higher-dose oral semaglutide (25–50mg) specifically for obesity. OASIS-1 results: approximately <strong>15.1% average body weight loss</strong> over 68 weeks — broadly comparable to injectable Wegovy. Regulatory submissions expected 2025–2026.</li><li><strong>Oral tirzepatide (Eli Lilly):</strong> SUMMIT trial programme for oral tirzepatide in obesity. Early results consistent with injectable Mounjaro's strong efficacy profile.</li><li><strong>Orforglipron (Eli Lilly):</strong> A small-molecule GLP-1 agonist — not a peptide — meaning it's inherently stable in tablet form without complex formulation. Phase 3 trials underway. Could become the most cost-effective oral GLP-1 if approved.</li><li><strong>Danuglipron (Pfizer):</strong> Another small-molecule GLP-1 agonist in Phase 3 development.</li></ul>
+<h2>How Do Oral Pills Work If Proteins Are Digested?</h2>
+<p>This is the core technical challenge — semaglutide and tirzepatide are peptides that would normally be broken down in the stomach. Two approaches solve this:</p>
+<ul><li><strong>Absorption enhancers:</strong> Rybelsus uses SNAC (sodium N-[8-(2-hydroxybenzoyl)amino]caprylate) to temporarily raise local stomach pH and protect the peptide, enabling absorption. Must be taken fasting with only a small sip of water, 30 minutes before food.</li><li><strong>Small-molecule formulations:</strong> Orforglipron and danuglipron are not peptides — they survive digestion naturally and can be taken with food. A significant practical advantage.</li></ul>
+<h2>How Effective Are Oral GLP-1 Pills vs Injections?</h2>
+<ul><li><strong>Oral semaglutide (OASIS-1):</strong> ~15.1% body weight loss — similar to injectable Wegovy's ~14.9%</li><li><strong>Orforglipron Phase 2:</strong> ~14.7% body weight loss — strong early signal</li><li><strong>Injectable Mounjaro (SURMOUNT-1):</strong> ~20.9% — still the highest bar in the market</li></ul>
+<h2>When Will Oral GLP-1 Pills Be Available From UK Providers?</h2>
+<ul><li><strong>2025–2026:</strong> MHRA submissions for oral semaglutide expected. FDA approval (US) typically precedes MHRA approval by 6–18 months.</li><li><strong>2026–2027:</strong> If approved, UK private providers would launch within weeks of MHRA approval, given existing clinical infrastructure.</li><li><strong>Orforglipron/danuglipron:</strong> Likely 12–24 months behind oral semaglutide.</li></ul>
+<h2>How Much Will Oral GLP-1 Pills Cost in the UK?</h2>
+<p>No UK pricing confirmed yet. Our best estimates based on available evidence:</p>
+<ul><li>Rybelsus (diabetes use) costs ~£100–150/month equivalent, suggesting weight-loss oral semaglutide could be priced similarly</li><li>If small-molecule options prove cheaper to manufacture (peptide synthesis is expensive), they could undercut current injectable prices</li><li>Market competition between multiple oral options over time should drive prices lower</li><li><strong>Our prediction: oral GLP-1 weight loss pills at £99–£199/month at launch</strong> — broadly in line with the cheapest injectable options</li></ul>
+<h2>Should I Wait for Pills Before Starting Treatment?</h2>
+<p>Clinically speaking: if you're currently eligible and want GLP-1 treatment, waiting 12–24+ months means delayed health benefits. Injectable options are safe, effective, and widely available now. Pen injectors are designed for ease of use and most patients find self-injection far less difficult than they expected. But if needle aversion is a hard barrier, watching this space closely is a perfectly reasonable choice — pills are coming.</p>
+<div class="blog-cta-box"><h3>Get Notified the Moment Oral GLP-1 Pills Launch in the UK</h3><p>Subscribe to our weekly email — we'll alert you the moment oral GLP-1 weight loss pills become available from UK providers, including a full price comparison on day one.</p><button onclick="document.getElementById('email-capture').scrollIntoView({behavior:'smooth'})">Notify Me When Pills Launch →</button></div>`
+  }
+];
+
+function renderBlog() {
+  const grid = document.getElementById('blogGrid');
+  const article = document.getElementById('blogArticle');
+  if (grid) { grid.style.display = 'grid'; }
+  if (article) { article.style.display = 'none'; }
+  if (!grid) return;
+  grid.innerHTML = BLOGS.map((b,i) => `
+    <div class="blog-card" onclick="openBlog(${i})" role="button" tabindex="0">
+      <div class="blog-card-img" style="background:${b.bgGrad}">${b.emoji}</div>
+      <div class="blog-card-body">
+        <span class="blog-cat ${b.catClass}">${b.category}</span>
+        <div class="blog-card-title">${b.title}</div>
+        <div class="blog-card-excerpt">${b.excerpt}</div>
+        <div class="blog-meta"><span>📅 ${b.date}</span><span>⏱ ${b.readTime}</span></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openBlog(i) {
+  const b = BLOGS[i];
+  const grid = document.getElementById('blogGrid');
+  const article = document.getElementById('blogArticle');
+  grid.style.display = 'none';
+  article.style.display = 'block';
+  article.innerHTML = `
+    <button class="blog-back" onclick="renderBlog()">← Back to all articles</button>
+    <div class="blog-article-head">
+      <span class="blog-cat ${b.catClass}">${b.category}</span>
+      <h1>${b.title}</h1>
+      <div class="blog-article-meta">
+        <span>📅 ${b.date}</span><span>⏱ ${b.readTime}</span><span>✍️ GLP-1 Comparison UK</span>
+      </div>
+    </div>
+    <div class="blog-article-body">${b.content}</div>
+  `;
+  const el = document.getElementById('tab-blog');
+  if (el) window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 80, behavior:'smooth'});
+}
 
 // Init
 render();
